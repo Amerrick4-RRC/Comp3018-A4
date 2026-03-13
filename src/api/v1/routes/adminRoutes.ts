@@ -6,5 +6,5 @@ import { setCustomClaims } from "../controllers/adminController";
 
 const router: Router = express.Router();
 
-router.post("/setCustomClaims",authenticate,isAuthorized({ hasRole: ["admin"] }), setCustomClaims);
+router.post("/setCustomClaims",authenticate, isAuthorized({ hasRole: ["admin"] }), setCustomClaims);
 export default router;
