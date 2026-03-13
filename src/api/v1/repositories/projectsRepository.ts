@@ -9,7 +9,7 @@ export const addLoan = async (item: model.CreateLoan): Promise<model.Loan> => {
     const addition: model.Loan = {
         applicant: item.applicant,
         amount: item.amount,
-        status: "pending",
+        status: item.status ?? "pending",
         createdAt: new Date().toISOString(),
         id: docRef.id
     }

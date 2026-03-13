@@ -21,5 +21,6 @@ export interface Loan {
 
 export interface CreateLoan {
     applicant: string,
-    amount: number
+    amount: number,
+    status?: string
 }
