@@ -6,7 +6,7 @@ export const createNewProject = async (item: CreateLoan): Promise<Loan> => {
     return results;
 };
 
-export const getByItemId = async (id: string ): Promise<Project> => {
+export const getByItemId = async (id: string ): Promise<Loan> => {
     let results = await getProjectById(id);
     return results;
 };
