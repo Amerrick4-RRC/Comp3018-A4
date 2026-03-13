@@ -35,10 +35,10 @@ export const getProjectById = async (id: string): Promise<model.Loan> => {
     };
 };
 
-export const getAllProjectsList = async (): Promise<model.Project[]> => {
+export const getAllProjectsList = async (): Promise<model.Loan[]> => {
     try {
         const snapshot = await db.collection("projects").get()
-        const itemListing: model.Project[] = snapshot.docs.map(doc => ({ ... (doc.data() as model.Project) }))
+        const itemListing: model.Loan[] = snapshot.docs.map(doc => ({ ... (doc.data() as model.Loan) }))
 
         return itemListing;
     }
