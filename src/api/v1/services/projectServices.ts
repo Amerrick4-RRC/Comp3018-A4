@@ -11,7 +11,7 @@ export const getByItemId = async (id: string ): Promise<Loan> => {
     return results;
 };
 
-export const getAllItems = async (): Promise<Project[]> =>{
+export const getAllItems = async (): Promise<Loan[]> =>{
     let results = await getAllProjectsList();
     return results;
 };
