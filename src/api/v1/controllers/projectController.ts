@@ -76,4 +76,40 @@ export const getHealth = (req: Request, res: Response): void => {
         version: "1.0.0"
     };
     res.status(HTTP_STATUS.OK).json(healthData)
-} 
+};
+
+export const signIn = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const firebaseRes = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAdRggtPaZXy8lcyUKkJ48e1HLBPd3KJo0`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true
+        })
+      }
+    );
+
+    const data = await firebaseRes.json();
+
+    // Firebase returns errors inside JSON even when status is 400
+    if (!firebaseRes.ok) {
+      return res.status(400).json({ error: data.error?.message });
+    }
+
+    // Return only what you want the client to see
+    return res.json({
+      idToken: data.idToken,
+      email: data.email,
+      userId: data.localId
+    });
+
+  } catch (err) {
+    return res.status(500).json({ error: "Server error" });
+  }
+};

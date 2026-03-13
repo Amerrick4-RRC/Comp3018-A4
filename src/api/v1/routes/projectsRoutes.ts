@@ -6,6 +6,7 @@ import {
     deleteLoanById,
     getHealth,
     getSelectedLoan,
+    signIn
 } from "../controllers/projectController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
@@ -20,4 +21,5 @@ router.get("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin", "offic
 router.put("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }), updateLoanWithId);
 router.delete("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin"], allowSameUser: true }), deleteLoanById);
 router.get("/health", getHealth);
+router.post("/auth/signin", signIn)
 export default router;
