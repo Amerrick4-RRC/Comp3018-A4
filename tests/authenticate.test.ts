@@ -54,10 +54,10 @@ describe("Authorization Middleware (AAA Format)", () => {
     it("calls next() when user role is in allowed list", () => {
         // Arrange
         const middleware = isAuthorized({
-            hasRole: ["admin", "lead"],
+            hasRole: ["admin", "manager"],
             allowSameUser: false
         });
-        res.locals.role = "lead";
+        res.locals.role = "manager";
 
         // Act
         middleware(req, res, next);
@@ -70,7 +70,7 @@ describe("Authorization Middleware (AAA Format)", () => {
     it("allows access when role matches one of multiple allowed roles", () => {
         // Arrange
         const middleware = isAuthorized({
-            hasRole: ["admin", "lead", "developer"],
+            hasRole: ["admin", "manager", "officer"],
             allowSameUser: false
         });
         res.locals.role = "admin";

@@ -71,10 +71,10 @@ describe("isAuthorized Middleware", () => {
     it("allows access when role is in allowed roles", () => {
         // Arrange
         const middleware = isAuthorized({
-            hasRole: ["admin", "lead"],
+            hasRole: ["admin", "manager"],
             allowSameUser: false
         });
-        res.locals.role = "lead";
+        res.locals.role = "manager";
 
         // Act
         middleware(req, res, next);
