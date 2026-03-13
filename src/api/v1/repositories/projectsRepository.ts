@@ -47,7 +47,7 @@ export const getAllProjectsList = async (): Promise<model.Loan[]> => {
     };
 };
 
-export const updateProject = async (id: string, update: Partial<model.CreateProject>): Promise<model.Project> => {
+export const updateProject = async (id: string, update: Partial<model.CreateLoan>): Promise<model.Loan> => {
     const docRef: DocumentReference = db.collection("projects").doc(id);
 
     try {
@@ -64,7 +64,7 @@ export const updateProject = async (id: string, update: Partial<model.CreateProj
         }
 
         return {
-            ...(snapshot.data() as model.Project),
+            ...(snapshot.data() as model.Loan),
             id: snapshot.id
         };
 
