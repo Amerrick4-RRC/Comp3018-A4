@@ -1,8 +1,8 @@
-import {addProject, getProjectById, getAllProjectsList, updateProject, deleteProjectById} from "../repositories/projectsRepository"
+import {addLoan, getProjectById, getAllProjectsList, updateProject, deleteProjectById} from "../repositories/projectsRepository"
 import { CreateProject, Project } from "../models/loanModel"
 
 export const createNewProject = async (item: CreateProject): Promise<Project> => {
-    let results = await addProject(item);
+    let results = await addLoan(item);
     return results;
 };
 

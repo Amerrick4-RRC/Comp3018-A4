@@ -2,14 +2,15 @@ import { db } from "../../../config/firebaseConfig";
 import { DocumentReference } from "firebase-admin/firestore";
 import * as model from "../models/loanModel"
 
-export const addProject = async (item: model.CreateProject): Promise<model.Project> => {
+export const addLoan = async (item: model.CreateLoan): Promise<model.Loan> => {
 
     const docRef: DocumentReference = db.collection("projects").doc();
 
-    const addition: model.Project = {
-        name: item.name,
-        status: item.status,
-        createdAt: item.createdAt ? item.createdAt : new Date().toISOString(),
+    const addition: model.Loan = {
+        applicant: item.applicant,
+        amount: item.amount,
+        status: "pending",
+        createdAt: new Date().toISOString(),
         id: docRef.id
     }
 
