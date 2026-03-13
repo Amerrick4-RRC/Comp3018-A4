@@ -8,7 +8,7 @@ import { CreateLoan } from "../models/loanModel"
 export const getLoans = async (req: Request, res: Response) => {
     try {
         const items = await getAllLoans();
-        res.status(HTTP_STATUS.OK).json({ Listing: "Projects", Count: items.length, data: items });
+        res.status(HTTP_STATUS.OK).json({ Listing: "Loan Applications", Count: items.length, data: items });
     }
     catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" });
@@ -32,7 +32,8 @@ export const createLoan = async (req: Request, res: Response) => {
     try {
         const newLoan: CreateLoan = {
             applicant: req.body.applicant,
-            amount: req.body.amount
+            amount: req.body.amount,
+            status: req.body.status
         }
         let result = await createNewLoan(newLoan);
 
