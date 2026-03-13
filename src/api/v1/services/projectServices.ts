@@ -16,7 +16,7 @@ export const getAllItems = async (): Promise<Loan[]> =>{
     return results;
 };
 
-export const updateItemById = async (id: string, update: Partial<CreateProject>): Promise<Project> => {
+export const updateItemById = async (id: string, update: Partial<CreateLoan>): Promise<Loan> => {
     let results = await updateProject(id, update);
     return results;
 };
