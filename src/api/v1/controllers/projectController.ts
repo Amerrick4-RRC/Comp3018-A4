@@ -3,6 +3,7 @@ import { HealthCheckResponse } from "../models/healthCheck";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { createNewLoan, getByLoanId, getAllLoans, deleteLoanWithId, updateLoanById } from "../services/projectServices"
 import { CreateLoan } from "../models/loanModel"
+import { apiKey } from "../../apiK";
 
 
 export const getLoans = async (req: Request, res: Response) => {
@@ -83,7 +84,7 @@ export const signIn = async (req: Request, res: Response) => {
 
   try {
     const firebaseRes = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

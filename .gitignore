@@ -5,3 +5,4 @@ fbk.json
 # Logs
 logs/
 *.log
+apiK.ts
