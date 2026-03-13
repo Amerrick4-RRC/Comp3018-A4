@@ -4,7 +4,7 @@ import * as model from "../models/loanModel"
 
 export const addLoan = async (item: model.CreateLoan): Promise<model.Loan> => {
 
-    const docRef: DocumentReference = db.collection("projects").doc();
+    const docRef: DocumentReference = db.collection("loans").doc();
 
     const addition: model.Loan = {
         applicant: item.applicant,
@@ -16,12 +16,12 @@ export const addLoan = async (item: model.CreateLoan): Promise<model.Loan> => {
 
     await docRef.set(addition);
 
-    console.log("Project added");
+    console.log("Loan added");
     return addition;
 };
 
-export const getProjectById = async (id: string): Promise<model.Loan> => {
-    const docRef: DocumentReference = db.collection("projects").doc(id);
+export const getLoanById = async (id: string): Promise<model.Loan> => {
+    const docRef: DocumentReference = db.collection("loans").doc(id);
 
     const item = await docRef.get();
 
@@ -31,11 +31,11 @@ export const getProjectById = async (id: string): Promise<model.Loan> => {
     }
     else {
         console.log("document not found")
-        throw new Error("Item not found")
+        throw new Error("Loan not found")
     };
 };
 
-export const getAllProjectsList = async (): Promise<model.Loan[]> => {
+export const getAllLoansList = async (): Promise<model.Loan[]> => {
     try {
         const snapshot = await db.collection("projects").get()
         const itemListing: model.Loan[] = snapshot.docs.map(doc => ({ ... (doc.data() as model.Loan) }))
@@ -47,8 +47,8 @@ export const getAllProjectsList = async (): Promise<model.Loan[]> => {
     };
 };
 
-export const updateProject = async (id: string, update: Partial<model.CreateLoan>): Promise<model.Loan> => {
-    const docRef: DocumentReference = db.collection("projects").doc(id);
+export const updateLoan = async (id: string, update: Partial<model.CreateLoan>): Promise<model.Loan> => {
+    const docRef: DocumentReference = db.collection("loans").doc(id);
 
     try {
         const updates = {
@@ -60,7 +60,7 @@ export const updateProject = async (id: string, update: Partial<model.CreateLoan
         const snapshot = await docRef.get();
 
         if (!snapshot.exists) {
-            throw new Error("Project not found");
+            throw new Error("Loan not found");
         }
 
         return {
@@ -69,20 +69,20 @@ export const updateProject = async (id: string, update: Partial<model.CreateLoan
         };
 
     } catch (error) {
-        throw new Error("Project not found");
+        throw new Error("Loan not found");
     }
 
 };
 
-export const deleteProjectById = async (id: string): Promise<void> => {
-    const docRef: DocumentReference = db.collection("projects").doc(id);
+export const deleteLoanById = async (id: string): Promise<void> => {
+    const docRef: DocumentReference = db.collection("loans").doc(id);
     const snapshot = await docRef.get();
 
     if (!snapshot.exists) {
         console.log("document not found");
-        throw new Error("Project not found");
+        throw new Error("Loan not found");
     }
 
     await docRef.delete();
-    console.log("Project deleted")
+    console.log("Loan deleted")
 };

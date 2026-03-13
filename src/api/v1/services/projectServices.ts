@@ -1,5 +1,5 @@
-import {addLoan, getProjectById, getAllProjectsList, updateProject, deleteProjectById} from "../repositories/projectsRepository"
-import { CreateProject, Project, Loan, CreateLoan } from "../models/loanModel"
+import {addLoan, getLoanById, getAllLoansList, updateLoan, deleteLoanById} from "../repositories/projectsRepository"
+import { Loan, CreateLoan } from "../models/loanModel"
 
 export const createNewProject = async (item: CreateLoan): Promise<Loan> => {
     let results = await addLoan(item);
@@ -7,21 +7,21 @@ export const createNewProject = async (item: CreateLoan): Promise<Loan> => {
 };
 
 export const getByItemId = async (id: string ): Promise<Loan> => {
-    let results = await getProjectById(id);
+    let results = await getLoanById(id);
     return results;
 };
 
 export const getAllItems = async (): Promise<Loan[]> =>{
-    let results = await getAllProjectsList();
+    let results = await getAllLoansList();
     return results;
 };
 
 export const updateItemById = async (id: string, update: Partial<CreateLoan>): Promise<Loan> => {
-    let results = await updateProject(id, update);
+    let results = await updateLoan(id, update);
     return results;
 };
 
 export const deleteItemWithId = async (id: string): Promise<void> =>{
-    await deleteProjectById(id);
+    await deleteLoanById(id);
     return;
 }
