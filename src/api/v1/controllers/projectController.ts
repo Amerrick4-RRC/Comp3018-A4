@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { HealthCheckResponse } from "../models/healthCheck";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { createNewProject, getByItemId, getAllItems, deleteItemWithId, updateItemById } from "../services/projectServices"
-import { CreateProject } from "../models/loanModel"
+import { CreateProject, CreateLoan } from "../models/loanModel"
 
 
 export const getProjects = async (req: Request, res: Response) => {
@@ -30,10 +30,9 @@ export const getSelectedProject = async (req: Request, res: Response) => {
 export const createProject = async (req: Request, res: Response) => {
 
     try {
-        const newProject: CreateProject = {
-            name: req.body.name,
-            status: req.body.status,
-            createdAt: req.body.createdAt
+        const newProject: CreateLoan = {
+            applicant: req.body.applicant,
+            amount: req.body.amount
         }
         let result = await createNewProject(newProject);
 
