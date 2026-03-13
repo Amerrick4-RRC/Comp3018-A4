@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { HealthCheckResponse } from "../models/healthCheck";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { createNewProject, getByItemId, getAllItems, deleteItemWithId, updateItemById } from "../services/projectServices"
-import { CreateProject } from "../models/projectModel"
+import { CreateProject } from "../models/loanModel"
 
 
 export const getProjects = async (req: Request, res: Response) => {

@@ -1,6 +1,6 @@
 import { db } from "../../../config/firebaseConfig";
 import { DocumentReference } from "firebase-admin/firestore";
-import * as model from "../models/projectModel"
+import * as model from "../models/loanModel"
 
 export const addProject = async (item: model.CreateProject): Promise<model.Project> => {
 
