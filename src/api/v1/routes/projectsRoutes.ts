@@ -1,11 +1,11 @@
 import express, { Router } from "express";
 import {
-    getProjects,
-    createProject,
-    updateProjectWithId,
-    deleteProjectById,
+    getLoans,
+    createLoan,
+    updateLoanWithId,
+    deleteLoanById,
     getHealth,
-    getSelectedProject,
+    getSelectedLoan,
 } from "../controllers/projectController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
@@ -14,10 +14,10 @@ import isAuthorized from "../middleware/authorize";
 
 const router: Router = express.Router();
 
-router.get("/projects",authenticate,isAuthorized({ hasRole: ["admin", "officer", "manager"] }), getProjects);
-router.post("/projects",authenticate,isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }), createProject);
-router.get("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin", "officer", "manager"] }), getSelectedProject);
-router.put("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }), updateProjectWithId);
-router.delete("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin"], allowSameUser: true }), deleteProjectById);
+router.get("/projects",authenticate,isAuthorized({ hasRole: ["admin", "officer", "manager"] }), getLoans);
+router.post("/projects",authenticate,isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }), createLoan);
+router.get("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin", "officer", "manager"] }), getSelectedLoan);
+router.put("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }), updateLoanWithId);
+router.delete("/projects/:id",authenticate,isAuthorized({ hasRole: ["admin"], allowSameUser: true }), deleteLoanById);
 router.get("/health", getHealth);
 export default router;

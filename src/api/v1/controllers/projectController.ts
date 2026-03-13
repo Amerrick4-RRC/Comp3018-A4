@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { HealthCheckResponse } from "../models/healthCheck";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { createNewLoan, getByLoanId, getAllLoans, deleteLoanWithId, updateLoanById } from "../services/projectServices"
-import { CreateProject, CreateLoan } from "../models/loanModel"
+import { CreateLoan } from "../models/loanModel"
 
 
-export const getProjects = async (req: Request, res: Response) => {
+export const getLoans = async (req: Request, res: Response) => {
     try {
         const items = await getAllLoans();
         res.status(HTTP_STATUS.OK).json({ Listing: "Projects", Count: items.length, data: items });
@@ -15,35 +15,35 @@ export const getProjects = async (req: Request, res: Response) => {
     }
 };
 
-export const getSelectedProject = async (req: Request, res: Response) => {
+export const getSelectedLoan = async (req: Request, res: Response) => {
     try {
         let id = req.params.id as string;
         let result = await getByLoanId(id);
 
-        res.status(HTTP_STATUS.OK).json({ Project : result });
+        res.status(HTTP_STATUS.OK).json({ LoanApplication : result });
     }
     catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" });
     }
 };
 
-export const createProject = async (req: Request, res: Response) => {
+export const createLoan = async (req: Request, res: Response) => {
 
     try {
-        const newProject: CreateLoan = {
+        const newLoan: CreateLoan = {
             applicant: req.body.applicant,
             amount: req.body.amount
         }
-        let result = await createNewLoan(newProject);
+        let result = await createNewLoan(newLoan);
 
-        res.status(HTTP_STATUS.CREATED).json({ Listing: "Projects", data: result  });
+        res.status(HTTP_STATUS.CREATED).json({ Listing: "Loan Applications", data: result  });
     }
     catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" });
     }
 };
 
-export const updateProjectWithId = async (req: Request, res: Response): Promise<void> => {
+export const updateLoanWithId = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id as string;
     try {
         const change: Partial<CreateLoan> = req.body;
@@ -56,7 +56,7 @@ export const updateProjectWithId = async (req: Request, res: Response): Promise<
     }
 };
 
-export const deleteProjectById = async (req: Request, res: Response): Promise<void> => {
+export const deleteLoanById = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id as string;
     try {
         await deleteLoanWithId(id)
