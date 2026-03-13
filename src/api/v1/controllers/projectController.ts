@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { HealthCheckResponse } from "../models/healthCheck";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { createNewProject, getByItemId, getAllItems, deleteItemWithId, updateItemById } from "../services/projectServices"
+import { createNewLoan, getByLoanId, getAllLoans, deleteLoanWithId, updateLoanById } from "../services/projectServices"
 import { CreateProject, CreateLoan } from "../models/loanModel"
 
 
 export const getProjects = async (req: Request, res: Response) => {
     try {
-        const items = await getAllItems();
+        const items = await getAllLoans();
         res.status(HTTP_STATUS.OK).json({ Listing: "Projects", Count: items.length, data: items });
     }
     catch (error) {
@@ -18,7 +18,7 @@ export const getProjects = async (req: Request, res: Response) => {
 export const getSelectedProject = async (req: Request, res: Response) => {
     try {
         let id = req.params.id as string;
-        let result = await getByItemId(id);
+        let result = await getByLoanId(id);
 
         res.status(HTTP_STATUS.OK).json({ Project : result });
     }
@@ -34,7 +34,7 @@ export const createProject = async (req: Request, res: Response) => {
             applicant: req.body.applicant,
             amount: req.body.amount
         }
-        let result = await createNewProject(newProject);
+        let result = await createNewLoan(newProject);
 
         res.status(HTTP_STATUS.CREATED).json({ Listing: "Projects", data: result  });
     }
@@ -48,7 +48,7 @@ export const updateProjectWithId = async (req: Request, res: Response): Promise<
     try {
         const change: Partial<CreateLoan> = req.body;
 
-        let result = await updateItemById(id, change)
+        let result = await updateLoanById(id, change)
         res.status(HTTP_STATUS.OK).json({ update: result })
     }
     catch (error) {
@@ -59,7 +59,7 @@ export const updateProjectWithId = async (req: Request, res: Response): Promise<
 export const deleteProjectById = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id as string;
     try {
-        await deleteItemWithId(id)
+        await deleteLoanWithId(id)
         res.status(HTTP_STATUS.OK).json({message: `Successful deletion of ${id}`})
     }
     catch (error) {
