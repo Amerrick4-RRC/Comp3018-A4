@@ -83,7 +83,7 @@ export const signIn = async (req: Request, res: Response) => {
 
   try {
     const firebaseRes = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAdRggtPaZXy8lcyUKkJ48e1HLBPd3KJo0`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
