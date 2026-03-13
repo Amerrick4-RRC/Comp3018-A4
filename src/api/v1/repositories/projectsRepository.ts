@@ -20,14 +20,14 @@ export const addLoan = async (item: model.CreateLoan): Promise<model.Loan> => {
     return addition;
 };
 
-export const getProjectById = async (id: string): Promise<model.Project> => {
+export const getProjectById = async (id: string): Promise<model.Loan> => {
     const docRef: DocumentReference = db.collection("projects").doc(id);
 
     const item = await docRef.get();
 
     if (item.exists) {
         console.log("document found")
-        return item.data() as model.Project;
+        return item.data() as model.Loan;
     }
     else {
         console.log("document not found")
