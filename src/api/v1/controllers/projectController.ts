@@ -46,7 +46,7 @@ export const createProject = async (req: Request, res: Response) => {
 export const updateProjectWithId = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id as string;
     try {
-        const change: Partial<CreateProject> = req.body;
+        const change: Partial<CreateLoan> = req.body;
 
         let result = await updateItemById(id, change)
         res.status(HTTP_STATUS.OK).json({ update: result })
