@@ -12,5 +12,5 @@ export const errorResponse = (message: string, code: string) => ({
         message,
         code,
     },
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().toISOString()
 });

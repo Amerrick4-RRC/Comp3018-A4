@@ -12,7 +12,14 @@ export const getLoans = async (req: Request, res: Response) => {
         res.status(HTTP_STATUS.OK).json({ Listing: "Loan Applications", Count: items.length, data: items });
     }
     catch (error) {
-        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" });
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: {
+                message: `Could not find loan with id ${req.params.id}`,
+                code: "LOAN_NOT_FOUND"
+            },
+            timestamp: new Date().toISOString()
+        });
     }
 };
 
@@ -21,10 +28,17 @@ export const getSelectedLoan = async (req: Request, res: Response) => {
         let id = req.params.id as string;
         let result = await getByLoanId(id);
 
-        res.status(HTTP_STATUS.OK).json({ LoanApplication : result });
+        res.status(HTTP_STATUS.OK).json({ LoanApplication: result });
     }
     catch (error) {
-        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" });
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: {
+                message: `Could not find loan with id ${req.params.id}`,
+                code: "LOAN_NOT_FOUND"
+            },
+            timestamp: new Date().toISOString()
+        });
     }
 };
 
@@ -38,10 +52,17 @@ export const createLoan = async (req: Request, res: Response) => {
         }
         let result = await createNewLoan(newLoan);
 
-        res.status(HTTP_STATUS.CREATED).json({ Listing: "Loan Applications", data: result  });
+        res.status(HTTP_STATUS.CREATED).json({ Listing: "Loan Applications", data: result });
     }
     catch (error) {
-        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" });
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: {
+                message: `Could not create loan`,
+                code: "LOAN_NOT_CREATED"
+            },
+            timestamp: new Date().toISOString()
+        });
     }
 };
 
@@ -62,10 +83,17 @@ export const deleteLoanById = async (req: Request, res: Response): Promise<void>
     const id = req.params.id as string;
     try {
         await deleteLoanWithId(id)
-        res.status(HTTP_STATUS.OK).json({message: `Successful deletion of ${id}`})
+        res.status(HTTP_STATUS.OK).json({ message: `Successful deletion of ${id}` })
     }
     catch (error) {
-        res.status(HTTP_STATUS.NOT_FOUND).json({ message: `Could not find ${id}` })
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: {
+                message: `Could not find loan with id ${req.params.id}`,
+                code: "LOAN_NOT_FOUND"
+            },
+            timestamp: new Date().toISOString()
+        });
     }
 };
 
@@ -80,37 +108,47 @@ export const getHealth = (req: Request, res: Response): void => {
 };
 
 export const signIn = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+    const email = req.body.email;
+    const password = req.body.password;
 
-  try {
-    const firebaseRes = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-          returnSecureToken: true
-        })
-      }
-    );
+    try {
+        const firebaseRes = await fetch(
+            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    returnSecureToken: true
+                })
+            }
+        );
 
-    const data = await firebaseRes.json();
+        const data = await firebaseRes.json();
 
-    // Firebase returns errors inside JSON even when status is 400
-    if (!firebaseRes.ok) {
-      return res.status(400).json({ error: data.error?.message });
+        // Return error if crud operation fails
+        if (!firebaseRes.ok) {
+            return res.status(400).json({ error: data.error?.message });
+        }
+
+        // Return required data points
+        return res.json({
+            idToken: data.idToken,
+            email: data.email,
+            userId: data.localId,
+            expiresIn: data.expiresIn,
+            refreshToken: data.refreshToken
+        });
+
+    } catch (err) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: {
+                message: `Could not retrieve sign in data`,
+                code: "SIGN_IN_FAILED"
+            },
+            timestamp: new Date().toISOString()
+        });
     }
-
-    // Return only what you want the client to see
-    return res.json({
-      idToken: data.idToken,
-      email: data.email,
-      userId: data.localId
-    });
-
-  } catch (err) {
-    return res.status(500).json({ error: "Server error" });
-  }
 };

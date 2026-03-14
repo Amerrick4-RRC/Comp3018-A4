@@ -1,6 +1,7 @@
 import { db } from "../../../config/firebaseConfig";
 import { DocumentReference } from "firebase-admin/firestore";
 import * as model from "../models/loanModel"
+import { AppError } from "../errors/errors";
 
 export const addLoan = async (item: model.CreateLoan): Promise<model.Loan> => {
 
@@ -31,7 +32,7 @@ export const getLoanById = async (id: string): Promise<model.Loan> => {
     }
     else {
         console.log("document not found")
-        throw new Error("Loan not found")
+        throw new AppError(`log with id ${id} not found`,"LOG_NOT_FOUND", 404);
     };
 };
 
@@ -69,7 +70,7 @@ export const updateLoan = async (id: string, update: Partial<model.CreateLoan>):
         };
 
     } catch (error) {
-        throw new Error("Loan not found");
+        throw new Error("LOAN_NOT_FOUND");
     }
 
 };
@@ -80,7 +81,7 @@ export const deleteLoanById = async (id: string): Promise<void> => {
 
     if (!snapshot.exists) {
         console.log("document not found");
-        throw new Error("Loan not found");
+        throw new AppError(`log with id ${id} not found`,"LOG_NOT_FOUND", 404);
     }
 
     await docRef.delete();
