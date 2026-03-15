@@ -36,7 +36,7 @@ const authenticate = async (
         if (!token) {
             throw new AuthenticationError(
                 "Unauthorized: No token provided",
-                "TOKEN_NOT_FOUND"
+                "MISSING_AUTHORIZATION"
             );
         }
 
